@@ -27,4 +27,39 @@ void measure() {
 
 void loop() {
 
+	if (digitalRead(3)==1 && flag==0) {
+		servo.write(180);
+		delay(1000);
+		flag=1;
+	}
+
+	if (digitalRead(3)==0 && flag==1) {
+		servo.write(3);
+		delay(1000);
+		flag=0;
+	}
+
+	if (flag==0) {
+		for (int i=0;i<=2;i++) {
+			measure();
+			aver[i]=dist;
+			delay(50);
+		}
+		dist=(aver[0]+aver[1]+aver[2])/3;
+	}
+
+	if (dist>10 && dist<30 && flag==0) {
+		servo.write(180);
+		delay(10000);
+		servo.write(3);
+		delay(1000);
+	}
+
+	if (dist>30 && dist<60 && flag==0) {
+		servo.write(180);
+		delay(2500);
+		servo.write(3);
+		delay(1000);
+	}
+
 }
